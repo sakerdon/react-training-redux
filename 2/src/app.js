@@ -1,5 +1,6 @@
 import React from 'react';
 import AppMinMax from './hw/5-norm.js';
+import AppInput from './app-input.js';
 
 export default class extends React.Component{
     state = {
@@ -8,7 +9,7 @@ export default class extends React.Component{
                 id: 100,
                 title: 'Ipnone 200',
                 price: 12000,
-                rest: 10,
+                rest: 16,
                 current: 1
             },
             {
@@ -84,6 +85,8 @@ export default class extends React.Component{
 
         return (
             <div>
+                <AppInput />
+
                 <h2>Cart</h2>
                 <table>
                     <tbody>
