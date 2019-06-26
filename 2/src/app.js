@@ -3,6 +3,7 @@ import AppMinMax from './hw/5-norm.js';
 
 export default class extends React.Component{
     state = {
+        isDone: false,
         products: [
             {
                 id: 100,
@@ -52,6 +53,11 @@ export default class extends React.Component{
       })
     }
 
+    change = () => {
+        this.setState({isDone: true});
+    }
+
+
 
 
     render(){
@@ -82,7 +88,7 @@ export default class extends React.Component{
             );
         });
 
-        return (
+        let orderScreen = (
             <div>
                 <h2>Cart</h2>
                 <table>
@@ -101,8 +107,19 @@ export default class extends React.Component{
 
                     </tbody> 
                 </table>
+
+                <button onClick = { this.change }>Submit</button>
                 
             </div>
         );
+
+        let doneScreen = (<div>Поздравляем! <br />Вы накупили на {globalTotal} руб.</div>);
+
+
+
+        return !this.state.isDone ? orderScreen : doneScreen
+
+            
+        
     }
 }
