@@ -115,7 +115,8 @@ export default class extends React.Component{
             </div>
         );
 
-        let doneScreen = (<div>Поздравляем! <br />Вы накупили на {globalTotal} руб.</div>);
+        let doneScreen = (<div>Поздравляем! <br />
+                            Вы накупили на {globalTotal} руб.</div>);
 
         return !this.state.isDone ? orderScreen : doneScreen
     }
