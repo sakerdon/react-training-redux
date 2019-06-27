@@ -4,20 +4,21 @@ import PropTypes from 'prop-types';
 export default class extends React.Component{
 
     static defaultProps = {
-        type: 'text',
         value: '',
         onInput: (e) => {console.log('onInput', e.target.value)},
         onChange: (e) => {console.log('onChange', e.target.value)},
+        type: 'text',
     }
 
     static propTypes = {
-        type: PropTypes.string,
         onChange: PropTypes.func,
         onInput: PropTypes.func,
         value:  PropTypes.oneOfType([
             PropTypes.string,
             PropTypes.number
-        ])
+        ]),
+        type: PropTypes.string,
+        placeholder: PropTypes.string,
     }
 
     state = {
@@ -33,17 +34,16 @@ export default class extends React.Component{
     }
 
     render(){
-        const {type, value, onInput, onChange} = this.props;
+        const {type, value, onInput, onChange, placeholder} = this.props;
         return (
-            <div>
                 <input
-                    type={type} 
                     value={this.state.inputValue} 
                     onChange={this.changeValue}
                     onBlur={onChange}
                     onKeyUp={ (e) => e.keyCode === 13 ? onChange(e) : false}
+                    type={type} 
+                    placeholder={placeholder}
                 />
-            </div>
         );
     }
 }

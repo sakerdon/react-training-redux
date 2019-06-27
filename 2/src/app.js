@@ -58,9 +58,6 @@ export default class extends React.Component{
         this.setState({isDone: true});
     }
 
-
-
-
     render(){
 
         let globalTotal = 0;
@@ -91,7 +88,9 @@ export default class extends React.Component{
 
         let orderScreen = (
             <div>
-                <AppInput key={Math.random()}/>
+                <AppInput placeholder="AppInput в вакууме"
+
+                />
 
                 <h2>Cart</h2>
                 <table>
@@ -118,11 +117,8 @@ export default class extends React.Component{
 
         let doneScreen = (<div>Поздравляем! <br />Вы накупили на {globalTotal} руб.</div>);
 
-
-
         return !this.state.isDone ? orderScreen : doneScreen
-
-            
-        
     }
 }
+  
+        
