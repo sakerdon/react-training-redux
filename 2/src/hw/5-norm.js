@@ -27,13 +27,16 @@ export default class extends React.Component{
     }
 
     set(newCnt){
-        // let cnt = Math.min(Math.max(newCnt, this.props.min), this.props.max);
 
-        let cnt = !isNaN(newCnt) ? Math.min(Math.max(newCnt, this.props.min), this.props.max) : this.props.min
+        let cnt = parseInt(newCnt);
+
+        if (isNaN(newCnt)) {
+            cnt = this.props.min;
+        } else {
+            cnt = Math.min(Math.max(newCnt, this.props.min), this.props.max);            
+        }
         
         this.setState({cnt});
-
-        // как-то сказать родителю, что cnt обновился
         this.props.onChange(cnt);
     }
 
@@ -41,52 +44,26 @@ export default class extends React.Component{
         this.setState({cnt: newStr});
     }
 
-    // applyValue = () => {
-    //     let cnt = parseInt(this.state.cnt);
-    //     this.set(isNaN(cnt) ? this.props.min : cnt);
-    // }
-
-    // checkEnterKey = (e) => {
-    //     if(e.keyCode === 13){
-    //         this.applyValue();
-    //     }
-    // }
-
     render(){
         return (
             <div>
                 <button onClick={this.decrease}>-</button>
-                
-                <AppInput value={this.state.cnt}
-                            onInput={(e) => this.setValue(e.target.value)}
-                            onChange={(e) => this.setValue(e.target.value)}
-                            key={this.state.cnt + 1}
-                            
-                            
+
+                {/*
+                    Для того, чтобы посмотреть onInput, надо заменить onChange 
+                    на onInput={(e) => this.set(e.target.value)
+                    т.к. в рамках нашего примера может отрабатывать только что-то одно, как я понимаю.
+                    В отрыве от нашего примера работают оба события.
+                    Глядя на мой key  - cкорее всего, все-таки я что-то не так сделал, 
+                    но ничего умнее придумать не смог.
+                */}
+                <AppInput 
+                        value={this.state.cnt}
+                        onChange={(e) => this.set(e.target.value)}
+                        key={Math.random()}
                 />
                 <button onClick={this.increase}>+</button>
             </div>
         );
     }
-
-    // render(){
-    //     return (
-    //         <div>
-    //             <button onClick={this.decrease}>-</button>
-    //             <input value={this.state.inputValue} 
-    //                    onChange={(e) => this.setValue(e.target.value)} 
-    //                    onBlur={this.applyValue}
-    //                    onKeyUp={this.checkEnterKey}
-    //             />
-    //             <button onClick={this.increase}>+</button>
-    //         </div>
-    //     );
-    // }
 }
-
-/*
-Some.defaultProps = {
-    min: 1,
-    max: 5
-};
-*/

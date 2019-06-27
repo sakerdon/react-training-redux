@@ -85,7 +85,7 @@ export default class extends React.Component{
 
         return (
             <div>
-                <AppInput />
+                <AppInput key={Math.random()}/>
 
                 <h2>Cart</h2>
                 <table>

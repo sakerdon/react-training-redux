@@ -4,51 +4,44 @@ import PropTypes from 'prop-types';
 export default class extends React.Component{
 
     static defaultProps = {
-        onInput: function(e){console.log('onInput', e.target.value)},
-        onChange: function(e){console.log('onChange', e.target.value)},
+        type: 'text',
+        value: '',
+        onInput: (e) => {console.log('onInput', e.target.value)},
+        onChange: (e) => {console.log('onChange', e.target.value)},
     }
-
 
     static propTypes = {
+        type: PropTypes.string,
         onChange: PropTypes.func,
-        onInput: PropTypes.func
+        onInput: PropTypes.func,
+        value:  PropTypes.oneOfType([
+            PropTypes.string,
+            PropTypes.number
+        ])
     }
-
-
-    // static getDerivedStateFromProps(props, state){
-    //     console.log('props', props);
-    //     console.log('state', state);
-    //     // this.state.inputValue = 
-    // }
 
     state = {
         inputValue: this.props.value
     };
 
-    // setValue(e){
-    //     const {onInput, onChange} = this.props;
-    //     // this.setState({inputValue: newStr});
-    //     onInput(e);
-    // }
-
     changeValue = (e) => {
-        const {value, onInput, onChange} = this.props;
+        const {onInput} = this.props;
+        this.setState({
+            inputValue: e.target.value
+        });
         onInput(e);
-
     }
 
-
-
-
-
     render(){
-        const {value, onInput, onChange} = this.props;
+        const {type, value, onInput, onChange} = this.props;
         return (
             <div>
-                <input value={value} 
-                       onChange={this.changeValue}
-                       onBlur={onChange}
-                       onKeyUp={ (e) => e.keyCode === 13 ? onChange(e) : false}
+                <input
+                    type={type} 
+                    value={this.state.inputValue} 
+                    onChange={this.changeValue}
+                    onBlur={onChange}
+                    onKeyUp={ (e) => e.keyCode === 13 ? onChange(e) : false}
                 />
             </div>
         );
