@@ -1,5 +1,6 @@
 import React from 'react';
-import AppMinMax from './minmax.js';
+import AppMinMax from './minmax';
+import styles from './cart.module.css';
 
 export default class extends React.Component{
 
@@ -28,7 +29,9 @@ export default class extends React.Component{
                     </td>
                     <td>{product.price * product.current}</td>
                     <td>
-                        <button onClick={() => remove(i)}>
+                        <button 
+                            className="delete-btn" 
+                            onClick={() => remove(i)}>
                             X
                         </button>
                     </td>
@@ -55,7 +58,10 @@ export default class extends React.Component{
                 </table>
                 <h3>Total: {total}</h3>
                 <hr/>
-                <button onClick={() => this.sendForm(total)}>Send</button>
+                <button className="btn btn-primary" 
+                    onClick={() => this.sendForm(total)}>
+                    Send
+                </button>
             </div>
         );
     }

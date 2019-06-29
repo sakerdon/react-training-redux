@@ -1,10 +1,14 @@
 import React from 'react';
-
+import { Modal, Button } from 'react-bootstrap';
 
 export default class extends React.Component{
 
     nameInput = React.createRef();
     emailInput = React.createRef();
+
+    state = {
+        showPopup: false
+    }
 
     componentDidMount() {
         this.nameInput.current.focus()
@@ -21,7 +25,7 @@ export default class extends React.Component{
         inputs.forEach(input => this.checkError(input))
         if (!this.allowSend(inputs)) return 
 
-        this.props.onSend();
+        this.handleOpen();
 
     }
      
@@ -34,6 +38,9 @@ export default class extends React.Component{
     allowSend = (inputs) => {
         return inputs.every(input => input.value.length);   
     }
+
+    handleClose = () => this.setState({showPopup: false});
+    handleOpen = () => this.setState({showPopup: true});
 
     render(){
 
@@ -65,6 +72,21 @@ export default class extends React.Component{
 
                   <button className="btn btn-primary">Submit</button>
                 </form>
+
+                <Modal show={this.state.showPopup} onHide={this.handleClose}>
+                  <Modal.Header closeButton>
+                    <Modal.Title>Are you sure?</Modal.Title>
+                  </Modal.Header>
+                  <Modal.Body>Are you realy want to buy this?</Modal.Body>
+                  <Modal.Footer>
+                    <Button variant="secondary" onClick={this.handleClose}>
+                      Cancel
+                    </Button>
+                    <Button variant="primary" onClick={() => this.props.onSend()}>
+                      Buy Now!
+                    </Button>
+                  </Modal.Footer>
+                </Modal>
             </div>
         );
     }
