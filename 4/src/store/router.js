@@ -4,15 +4,17 @@ import {observable, computed, action} from 'mobx';
 import Cart from '~p/Cart';
 import Order from '~p/Order';
 import Result from '~p/Result';
+import P404 from '~p/P404';
 
 class Router{
     routes = {
         cart: () => <Cart/>,
         order: () => <Order/>,
         result: () => <Result/>,
+        p404: () => <P404/>
     }
 
-    @observable activeRoute = 'cart'
+    @observable activeRoute = 'cart';
 
     @computed get component(){
         // проверка есть ли роут в списке, если нет -> p404
@@ -21,9 +23,16 @@ class Router{
 
     @action moveTo(route){
         // проверка есть ли роут в списке
-        this.activeRoute = route;
+        if(route in this.routes) {
+            this.activeRoute = route;
+        } else {
+            this.activeRoute = 'p404';
+        }
+
     }
 }
+
+
 
 export default new Router();
 

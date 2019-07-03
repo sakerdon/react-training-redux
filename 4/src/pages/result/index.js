@@ -14,9 +14,6 @@ export default class extends React.Component{
     	     row.push(<tr key={name}><td>{name}: </td><td>{value}</td></tr>);
     	}
 
-
-    	
-
         return (
             <div>
                 <h2>Congratulations!</h2>

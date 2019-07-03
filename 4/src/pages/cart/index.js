@@ -50,6 +50,9 @@ import {observer} from 'mobx-react';
                 </table>
                 <h3>Total: {cartModel.total}</h3>
                 <hr/>
+                <button className="btn btn-danger" onClick={() => router.moveTo('trulala')}>
+                    Bad Route
+                </button>
                 <button className="btn btn-primary" onClick={() => router.moveTo('order')}>
                     Send
                 </button>

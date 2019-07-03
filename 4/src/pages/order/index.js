@@ -1,18 +1,4 @@
-/*import React from 'react';
-import PropTypes from 'prop-types';
-import {Form, Button, Modal} from 'react-bootstrap';
 
-export default class extends React.Component{
-    render(){
-        return (
-            <div>
-                <h2>Order</h2>
-            </div>
-        )
-    }
-}
-
-*/
 import React from 'react';
 import PropTypes from 'prop-types';
 import {Form, Button, Modal} from 'react-bootstrap';
@@ -53,10 +39,8 @@ import {observer} from 'mobx-react';
             const {label, value, isChanged, errMessage} = formData[name];
 
             let validClass = '', error = null;
-
             if (isFirstTime) {
             	validClass = !isValid(name) ? 'is-invalid' : 'is-valid';
-
             	error = !isValid(name) 
             			? <div className="invalid-feedback">{errMessage}</div> 
             			: null 
@@ -72,11 +56,9 @@ import {observer} from 'mobx-react';
                         value={value}
                         onChange={(e) => change(name, e.target.value)} 
                     />
-
                     {error}
-           
-
                 </Form.Group>
+
             );
         }
 
