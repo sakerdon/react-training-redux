@@ -1,12 +1,46 @@
 import React from 'react';
 import E404 from '~c/errors/404';
-import productModel from '~s/products.js'
+import productModel from '~s/products.js';
+import cartModel from '~s/cart.js';
 
-class Product extends React.Component{
+import {observer} from 'mobx-react';
+
+
+
+@observer class Product extends React.Component{
+
+    addToCart = (id) => {
+        cartModel.add(id);
+    }
+
+    removeFromCart = (id) => {
+        cartModel.removeFromId(id);
+    }
+
+    isInCart = (id) => cartModel.products.map((p) => p.id).includes(id);
+
+
+     renderButton(id){
+
+        if (!this.isInCart(id)){
+            return  (<button className="btn btn-primary" 
+                        onClick={() => this.addToCart(id)}>
+                        Add To cart
+                     </button>)  
+        } else {
+            return (<button className="btn btn-warning" 
+                        onClick={() => this.removeFromCart(id)}>
+                        Remove
+                </button>
+            )
+        }
+    }
+
 
     render(){
     	let index = this.props.match.params.index;
         let product = productModel.products[index];
+        let id = product.id;
 
         if (!product) return <E404 />;
 
@@ -21,10 +55,8 @@ class Product extends React.Component{
                         <div className="card-body">
                             <h2 className="card-title">{product.title}</h2>
                             <p className="card-text">Price: ${product.price}</p>
-                            <button className="btn btn-primary" 
-                                    onClick={() => productModel.add(index)}>
-                                Add To cart
-                            </button>
+                            
+                            {this.renderButton(id)}
                             
                         </div>
                     </div>

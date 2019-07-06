@@ -21,7 +21,7 @@ import { urlBuilder } from '~/routes';
 
     isInCart = (id) => cartModel.products.map((p) => p.id).includes(id);
 
-    renderButton = (i, id) => {
+    renderButton = (id) => {
 
         if (!this.isInCart(id)){
             return  (<button className="btn btn-primary" 
@@ -55,7 +55,7 @@ import { urlBuilder } from '~/routes';
 
                         <div className="card-footer d-flex">
 
-                            {this.renderButton(i, id)}
+                            {this.renderButton(id)}
 
                             <Link className="btn btn-secondary ml-auto" 
                                     to={urlBuilder('product', {index: i})}>
