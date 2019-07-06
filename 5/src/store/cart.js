@@ -1,11 +1,19 @@
 import {observable, computed, action} from 'mobx';
+import productModel from '~s/products.js';
+
 
 class Cart{
+
+    getIndex(id) {
+        return this.products.findIndex(obj => obj.id === id)
+    }
+
     @observable products = [];
 
     @computed get total(){
         return this.products.reduce((t, pr) => t + pr.price * pr.current, 0);
     }
+
 
     @computed get changeOn(){
         return this.products.map((product, i) => {
@@ -13,8 +21,9 @@ class Cart{
         });
     }
 
-    @action add(i, obj){
-        this.products[i] = obj;
+    @action add(id){
+        let obj = productModel.products.filter(ob => ob.id === id)[0];
+        this.products.push(obj);
     }
 
     @action change(i, cnt){
@@ -22,48 +31,11 @@ class Cart{
     }
 
     @action remove(i){
-        this.products.splice(i, 1);
+        this.products.splice(i, 1);  
+    }
+    @action removeFromId(id){ // Добавил, чтобы не ломать уже написанную логику minmax'a
+        this.products.splice(this.getIndex(id), 1);
     }
 }
 
 export default new Cart();
-
-
-
-
-
-
-
-// server api
-function getProducts(){
-    return [
-        {
-            id: 100,
-            title: 'Ipnone 200',
-            price: 12000,
-            rest: 10,
-            current: 1
-        },
-        {
-            id: 101,
-            title: 'Samsung AAZ8',
-            price: 22000,
-            rest: 5,
-            current: 1
-        },
-        {
-            id: 103,
-            title: 'Nokia 3310',
-            price: 5000,
-            rest: 2,
-            current: 1
-        },
-        {
-            id: 105,
-            title: 'Huawei ZZ',
-            price: 15000,
-            rest: 8,
-            current: 1
-        }
-    ];
-}

@@ -1,20 +1,12 @@
-import cartModel from '~s/cart.js'
-import {observable, computed, action} from 'mobx';
+import {observable} from 'mobx';
 
 
 class Products{
     @observable products = getProducts();
 
-    @action add(i){
-    	console.log('test', i, cartModel.products);
-        cartModel.add(i, this.products[i]);
-    }
-
 }
 
-
 export default new Products();
-
 
 
 // server api

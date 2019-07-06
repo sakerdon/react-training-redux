@@ -11,37 +11,38 @@ import { urlBuilder } from '~/routes';
 
 @observer class Home extends React.Component{
 
-    addToCart = (i) => {
-        productModel.add(i)
-    }
-    removeFromCart = (i) => {
-        cartModel.remove(i)
+    addToCart = (id) => {
+        cartModel.add(id);
     }
 
-    inCart = (idx) => cartModel.products.map((p, i) => i).includes(idx);
+    removeFromCart = (id) => {
+        cartModel.removeFromId(id);
+    }
 
-    renderButton = (i) => {
+    isInCart = (id) => cartModel.products.map((p) => p.id).includes(id);
 
-        if (!this.inCart(i)){
+    renderButton = (i, id) => {
+
+        if (!this.isInCart(id)){
             return  (<button className="btn btn-primary" 
-                        onClick={() => this.addToCart(i)}>
+                        onClick={() => this.addToCart(id)}>
                         Add To cart
                      </button>)  
         } else {
-            return (
-                <button className="btn btn-warning" 
-                        onClick={() => this.removeFromCart(i)}>
-                    Remove
+            return (<button className="btn btn-warning" 
+                        onClick={() => this.removeFromCart(id)}>
+                        Remove
                 </button>
-
             )
         }
     }
 
-
     render(){
 
         let productsRows = productModel.products.map((product, i) => {
+
+            let id = product.id;
+
             return (
                 <div className="col-md-4 mb-4" key={product.id}>
 
@@ -50,12 +51,11 @@ import { urlBuilder } from '~/routes';
                         <div className="card-body">
                             <h5 className="card-title">{product.title}</h5>
                             <p className="card-text">Price: ${product.price}</p>
-
                         </div>
 
                         <div className="card-footer d-flex">
 
-                            {this.renderButton(i)}
+                            {this.renderButton(i, id)}
 
                             <Link className="btn btn-secondary ml-auto" 
                                     to={urlBuilder('product', {index: i})}>
@@ -71,7 +71,7 @@ import { urlBuilder } from '~/routes';
 
         return (
             <div>
-                <h2>Cart</h2>
+                <h2>Home</h2>
                     <div className="row">
                         {productsRows}
                     </div> 
