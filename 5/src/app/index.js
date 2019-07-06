@@ -5,6 +5,8 @@ import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import routes from '~/routes';
 import { routesMap } from '~/routes';
 import { Link, NavLink } from 'react-router-dom';
+import cartModel from '~s/cart.js';
+
 
 
 @observer class App extends React.Component{
@@ -20,7 +22,14 @@ import { Link, NavLink } from 'react-router-dom';
 
         return (
             <Router>
+                <nav class="navbar navbar-expand-lg navbar-light bg-light d-flex">
+                    <div className="ml-auto">
+                    Cart-icon<span className="badge badge-danger">{cartModel.productCnt}</span>
+                    <div className="text-right">${cartModel.total}</div>
+                    </div>
+                </nav>
                 <div className="container pt-4">
+
                     <div className="row">
                         <div className="col-md-2">
                             <div className="list-group">

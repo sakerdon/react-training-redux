@@ -14,6 +14,10 @@ class Cart{
         return this.products.reduce((t, pr) => t + pr.price * pr.current, 0);
     }
 
+    @computed get productCnt(){
+        return this.products.reduce((t, pr) => t +  pr.current, 0);
+    }
+
 
     @computed get changeOn(){
         return this.products.map((product, i) => {

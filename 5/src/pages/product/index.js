@@ -40,9 +40,11 @@ import {observer} from 'mobx-react';
     render(){
     	let index = this.props.match.params.index;
         let product = productModel.products[index];
-        let id = product.id;
 
         if (!product) return <E404 />;
+
+
+        let id = product.id;
 
         return (
             <div>
