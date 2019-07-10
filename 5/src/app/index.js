@@ -22,7 +22,7 @@ import cartModel from '~s/cart.js';
 
         return (
             <Router>
-                <nav class="navbar navbar-expand-lg navbar-light bg-light d-flex">
+                <nav className="navbar navbar-expand-lg navbar-light bg-light d-flex">
                     <div className="ml-auto">
                     Cart-icon<span className="badge badge-danger">{cartModel.productCnt}</span>
                     <div className="text-right">${cartModel.total}</div>
