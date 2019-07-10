@@ -3,6 +3,8 @@ import styles from './app.module.css';
 import {observer, Provider} from 'mobx-react';
 import {BrowserRouter as Router, Route, Switch, Link, NavLink} from 'react-router-dom';
 import routes, { routesMap } from '~/routes';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faShoppingCart } from '@fortawesome/free-solid-svg-icons'
 
 import stores from '~s';
 
@@ -30,7 +32,11 @@ import stores from '~s';
                         </Link>
 
                         <Link to="/cart" className="nav-link ml-auto text-body">
-                        Cart-icon<span className="badge badge-danger">{cartModel.productCnt}</span>
+
+                        <div className="text-right">
+                            <FontAwesomeIcon icon={faShoppingCart} size="lg"/>
+                            <sup className="badge badge-danger d-inline-flex"><small>{cartModel.productCnt}</small></sup>
+                        </div>
                             <div className="text-right">${cartModel.total}</div>
                         </Link>
                     </div>
