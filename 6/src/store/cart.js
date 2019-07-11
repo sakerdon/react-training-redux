@@ -29,26 +29,46 @@ export default class{
             return t + pr.price * pr.cnt;
         }, 0);
     }
+/*
+    Я совсем не понял задание с промисами.
+    Зачем методам add, change, remove возвращать промис, 
+    да и как это сделать совсем не понял.
+    
+    Мне казалось наоборот - они должны обрабатывать промис,
+    вернувшийся после какого-то запроса. 
+    Наверное, я не про то думаю.
+*/
+
 
     @action add(id){
-        this.products.push({id, cnt: 1});
+        fetch('#').then(res => {
+            console.log(res.status);
+            this.products.push({id, cnt: 1});
+        })
     }
 
     @action change(id, cnt){
-        let index = this.products.findIndex((pr) => pr.id === id);
-
-        if(index !== -1){
-            this.products[index].cnt = cnt;
-        }
+        fetch('#').then((res) =>  {
+            console.log(res.status);
+            let index = this.products.findIndex((pr) => pr.id === id);
+            if(index !== -1){
+                this.products[index].cnt = cnt;
+            }
+        })
     }
 
     @action remove(id){
-        let index = this.products.findIndex((pr) => pr.id === id);
 
-        if(index !== -1){
-            this.products.splice(index, 1);
-        }
+        fetch('#').then((res) =>  {
+            console.log(res.status);
+            let index = this.products.findIndex((pr) => pr.id === id);
+            if(index !== -1){
+                this.products.splice(index, 1);
+            }
+        })
     }
+
+
 }
 
 
@@ -57,40 +77,3 @@ export default class{
 
 
 
-
-
-
-
-// server api
-function getProducts(){
-    return [
-        {
-            id: 100,
-            title: 'Ipnone 200',
-            price: 12000,
-            rest: 10,
-            current: 1
-        },
-        {
-            id: 101,
-            title: 'Samsung AAZ8',
-            price: 22000,
-            rest: 5,
-            current: 1
-        },
-        {
-            id: 103,
-            title: 'Nokia 3310',
-            price: 5000,
-            rest: 2,
-            current: 1
-        },
-        {
-            id: 105,
-            title: 'Huawei ZZ',
-            price: 15000,
-            rest: 8,
-            current: 1
-        }
-    ];
-}
