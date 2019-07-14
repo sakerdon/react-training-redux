@@ -21,8 +21,8 @@ import {observer, inject} from 'mobx-react';
                         backUrl={routesMap.home} 
                         linkComponent={Link}
                         inCart={cart.inCart(product.id)}
-                        onAdd={() => cart.add(product.id)}
-                        onRemove={() => cart.remove(product.id)}
+                        onAdd={(e) => cart.add(product.id, e.target)}
+                        onRemove={(e) => cart.remove(product.id, e.target)}
                     />
         }
     }

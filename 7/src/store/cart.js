@@ -42,35 +42,45 @@ export default class{
         });
     }
 
-    @action add(id){
-        this.api.add(this.token, id).then((res) => {
-            if(res){
-                this.products.push({id, cnt: 1});
-            }
-        });
+    @action add(id, ref){
+
+        this.disableEl(ref);
+
+        this.api.add(this.token, id)
+            .then((res) => {
+                if(res){
+                    this.products.push({id, cnt: 1});
+                }
+            })
+            .then( () => this.unDisableEl(ref) );
     }
 
+    @action change(id, cnt, ref){
 
-    @action change(id, cnt){
+        this.disableEl(ref);
+
         let index = this.products.findIndex((pr) => pr.id === id);
-        console.log('test11');
 
         this.api.change(this.token, id, cnt).then((res) => {
 
-            console.log('test', res);
             if(index !== -1){
                 this.products[index].cnt = cnt;
             }
-        });
+        })
+        .then(() => this.unDisableEl(ref) )
     }
 
-    @action remove(id){
+
+    @action remove(id, ref){
+        this.disableEl(ref)
+
         let index = this.products.findIndex((pr) => pr.id === id);
 
         if(index !== -1){
             this.api.remove(this.token, id).then((res) => {
                 this.products.splice(index, 1);
-            });
+            })
+            .then(() => this.unDisableEl(ref) );
         }
     }
 
@@ -79,6 +89,33 @@ export default class{
         this.api.clean(this.token).then((res) => {
             this.products = [];
         });
+    }
+
+
+
+/*
+    Такое чувство, что этим двум методам не место на складе.  
+    С одной стороны они работают с отображением элементов,
+    хотя с другой стороны они блокируют повторную отправку данных.
+    Не совсем понятно как правильно делать. В api наверное тоже не стоит?
+
+    Да и вообще, нужны ли такие методы.Смотрится грязновато. 
+    Не приумал, к сожалению как это сделать изящнее. 
+*/
+    disableEl(ref){
+        ref.disabled = true;
+        if(ref.children.length) {
+            ref.querySelectorAll('input, button').forEach(el => el.disabled = true)
+        }
+
+    }
+
+    unDisableEl(ref){
+        ref.disabled = false;
+        if(ref.children.length) {
+            ref.querySelectorAll('input, button').forEach(el => el.disabled = false)
+        }
+
     }
 }
 
@@ -93,35 +130,35 @@ export default class{
 
 
 // server api
-function getProducts(){
-    return [
-        {
-            id: 100,
-            title: 'Ipnone 200',
-            price: 12000,
-            rest: 10,
-            current: 1
-        },
-        {
-            id: 101,
-            title: 'Samsung AAZ8',
-            price: 22000,
-            rest: 5,
-            current: 1
-        },
-        {
-            id: 103,
-            title: 'Nokia 3310',
-            price: 5000,
-            rest: 2,
-            current: 1
-        },
-        {
-            id: 105,
-            title: 'Huawei ZZ',
-            price: 15000,
-            rest: 8,
-            current: 1
-        }
-    ];
-}
+// function getProducts(){
+//     return [
+//         {
+//             id: 100,
+//             title: 'Ipnone 200',
+//             price: 12000,
+//             rest: 10,
+//             current: 1
+//         },
+//         {
+//             id: 101,
+//             title: 'Samsung AAZ8',
+//             price: 22000,
+//             rest: 5,
+//             current: 1
+//         },
+//         {
+//             id: 103,
+//             title: 'Nokia 3310',
+//             price: 5000,
+//             rest: 2,
+//             current: 1
+//         },
+//         {
+//             id: 105,
+//             title: 'Huawei ZZ',
+//             price: 15000,
+//             rest: 8,
+//             current: 1
+//         }
+//     ];
+// }

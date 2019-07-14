@@ -14,12 +14,12 @@ import {observer, inject} from 'mobx-react';
             let btn;
 
             if(cart.inCart(product.id)){
-                btn = <Button variant="danger" onClick={() => cart.remove(product.id)}>
+                btn = <Button variant="danger" onClick={(e) => cart.remove(product.id, e.target)}>
                     Remove from cart
                 </Button>
             }
             else{
-                btn = <Button variant="success" onClick={() => cart.add(product.id)}>
+                btn = <Button variant="success" onClick={(e) => cart.add(product.id, e.target)}>
                     Add to cart
                 </Button>
             }

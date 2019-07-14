@@ -7,12 +7,15 @@ import withStore from '~/hocs/withStore';
 import LinkButton from '~c/links/button';
 
 class Cart extends React.Component{
+
+    myRef = [];
+
     render(){
         let cartModel = this.props.stores.cart;
 
         let productsRows = cartModel.productsDetailed.map((product, i) => {
             return (
-                <tr key={product.id}>
+                <tr key={product.id} ref={(ref) => { this.myRef[i] = ref; return true; }}>
                     <td>{product.title}</td>
                     <td>{product.price}</td>
                     <td>
@@ -20,12 +23,12 @@ class Cart extends React.Component{
                             min={1} 
                             max={product.rest} 
                             cnt={product.cnt} 
-                            onChange={(cnt) => cartModel.change(product.id, cnt)}
+                            onChange={(cnt) => cartModel.change(product.id, cnt, this.myRef[i])}
                         />
                     </td>
                     <td>{product.price * product.cnt}</td>
                     <td>
-                        <button onClick={() => cartModel.remove(product.id)}>
+                        <button onClick={() => cartModel.remove(product.id, this.myRef[i])}>
                             X
                         </button>
                     </td>
