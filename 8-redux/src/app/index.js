@@ -10,6 +10,11 @@ import {Navbar} from 'react-bootstrap';
 import {connect} from 'react-redux';
 import actions from '~s/actions';
 
+import {cartTotalPriceSelector,
+        cartTotalCntSelector,
+    } from '~s/selectors';
+
+
 
 
 class App extends React.Component{
@@ -19,6 +24,9 @@ class App extends React.Component{
     }
 
     render(){
+
+        const { totalCnt, totalPrice } = this.props; 
+
         // let cart = this.props.stores.cart;
 
         let routesComponents = routes.map((route) => {
@@ -43,9 +51,10 @@ class App extends React.Component{
                         <NavLink to="/cart" className="nav-link ml-auto text-body">
                           <div className="text-right">
                               <FontAwesomeIcon icon={faShoppingCart} size="lg"/>
-                              <sup className="badge badge-danger d-inline-flex"><small>{1234}</small></sup>
+                              <sup className="badge badge-danger d-inline-flex">
+                              <small>{totalCnt}</small></sup>
                           </div>
-                              <div className="text-right">${4321}</div>
+                              <div className="text-right">${totalPrice}</div>
                         </NavLink>
 
                     </div>
@@ -85,7 +94,13 @@ class App extends React.Component{
 
 let mapStateToProps = state => {
     return {
-        products: state.products.products
+        products: state.products.products,
+        cartDetailed: state.products.cartDetailed,
+        totalCnt: state.products.totalCnt,
+        totalPrice: state.products.totalPrice,
+        totalPrice: cartTotalPriceSelector(state),
+        totalCnt: cartTotalCntSelector(state),
+
     }
 }
 

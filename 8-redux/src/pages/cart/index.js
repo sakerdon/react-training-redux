@@ -11,26 +11,28 @@ import { faTrash} from '@fortawesome/free-solid-svg-icons'
 
 import {connect} from 'react-redux';
 import actions from '~s/actions';
-import {cartDetailed} from '~s/reducers/products';
 
+import {cartDetailedSelector, 
+        cartTotalPriceSelector,
+        cartTotalCntSelector,
+    } from '~s/selectors';
 
 class Cart extends React.Component{
-
-        
+   
     render(){
+        const { 
+            products, 
+            cart, 
+            cartDetailed, 
+            onChange, 
+            onRemove, 
+            totalPrice
+        } = this.props;
 
+        let productsRows = cartDetailed.map((product, i) => {
+            
+            if(!product.id) return null; 
 
-        console.log('props', this.props);
-        const { products, cart, onChange, onRemove} = this.props; 
-        console.log('cart', cart);
-        console.log('products33333333', cartDetailed(cart, products));
-
-        const cartDetail = cartDetailed(cart, products);
-
-        let total = cart.reduce((t, pr) => t + pr.price * pr.current, 0)
-
-
-        let productsRows = cartDetail.map((product, i) => {
             return (
                 <tr key={product.id}>
                     <td>{product.title}</td>
@@ -44,7 +46,7 @@ class Cart extends React.Component{
                             disabled={/*product.id in cartModel.processId*/ false}
                         />
                     </td>
-                    <td>{product.price * product.current}</td>
+                    <td>{product.price * product.cnt}</td>
                     <td>
                         <button onClick={() => onRemove(product.id,)}
                                 disabled={/*product.id in cartModel.processId*/ false}
@@ -56,6 +58,7 @@ class Cart extends React.Component{
                 </tr>
             );
         });
+
 
         return (
             <div>
@@ -74,7 +77,7 @@ class Cart extends React.Component{
                         {productsRows}
                     </tbody> 
                 </table>
-                <h3>Total: ${total}</h3>
+                <h3>Total: ${totalPrice}</h3>
                 <hr/>
                 
                 <LinkButton to={routesMap.order} className="btn btn-primary">
@@ -88,14 +91,17 @@ class Cart extends React.Component{
 let mapStateToProps = state => {
     return {
         cart: state.products.cartProducts,
+        cartDetailed: cartDetailedSelector(state),
         products: state.products.products,
+        totalPrice: cartTotalPriceSelector(state),
+        totalCnt: cartTotalCntSelector(state),
     }
 }
 
 let mapDispatchToProps = dispatch => {
     return {
         onRemove: (i) => dispatch(actions.products.remove(i)),
-        onChange: (i, cnt) => dispatch(actions.products.changeCnt(i, cnt)),
+        onChange: (i, cnt) => dispatch(actions.products.changeCnt(i, cnt))
     }
 }
 

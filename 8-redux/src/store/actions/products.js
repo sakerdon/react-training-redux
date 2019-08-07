@@ -2,30 +2,18 @@ import {all} from '~a/products'
 
 
 
-function cartDetailed(cart, products){
-    console.log('PRODUCTS', products);
-    return cart.map((pr) => {
-        let product = getById(products, pr.id);
-        console.log('PRODUCTS1111111', products);
-        return {...product, cnt: pr.cnt};
-    });
-}
-
-
-
 export const fetchProducts = (dispatch) => {
 
 	all().then(res => {
-		console.log('test', res);
-		dispatch({type: 'FETCH_PRODUCTS', payload: res})
+		dispatch({type: 'FETCH_PRODUCTS', payload: res});
 	})
 	.catch( err => {
-		console.log(err);
 		dispatch({type: 'FETCH_PRODUCTS', 
 			payload: getProducts()})
 
 	})
 }
+
 
 
 // Cart
@@ -50,7 +38,6 @@ export const changeCnt = (i, cnt) => {
         cnt
     }
 }
-	
 
 
 
