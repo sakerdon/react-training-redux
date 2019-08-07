@@ -90,7 +90,7 @@ class Cart extends React.Component{
 
 let mapStateToProps = state => {
     return {
-        cart: state.products.cartProducts,
+        cart: state.cart.cartProducts,
         cartDetailed: cartDetailedSelector(state),
         products: state.products.products,
         totalPrice: cartTotalPriceSelector(state),
@@ -100,8 +100,8 @@ let mapStateToProps = state => {
 
 let mapDispatchToProps = dispatch => {
     return {
-        onRemove: (i) => dispatch(actions.products.remove(i)),
-        onChange: (i, cnt) => dispatch(actions.products.changeCnt(i, cnt))
+        onRemove: (i) => dispatch(actions.cart.remove(i)),
+        onChange: (i, cnt) => dispatch(actions.cart.changeCnt(i, cnt))
     }
 }
 

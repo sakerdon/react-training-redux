@@ -1,10 +1,10 @@
-import {all} from '~a/products'
+import {all as fetchAllProducts}  from '~a/products'
 
 
 
 export const fetchProducts = (dispatch) => {
 
-	all().then(res => {
+	fetchAllProducts().then(res => {
 		dispatch({type: 'FETCH_PRODUCTS', payload: res});
 	})
 	.catch( err => {
@@ -14,30 +14,6 @@ export const fetchProducts = (dispatch) => {
 	})
 }
 
-
-
-// Cart
-
-export const remove = (i) => {
-    return {
-        type: 'CART_REMOVE',
-        i
-    }
-}
-
-export const add = (i) => {
-    return {
-        type: 'CART_ADD',
-        i
-    }
-}
-export const changeCnt = (i, cnt) => {
-    return {
-        type: 'CART_CHANGE_CNT',
-        i,
-        cnt
-    }
-}
 
 
 

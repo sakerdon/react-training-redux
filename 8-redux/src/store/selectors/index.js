@@ -1,14 +1,10 @@
 import { createSelector } from 'reselect';
 
-
 const getPproducts = state => state.products.products;
-const getCartProducts = state => state.products.cartProducts;
+const getCartProducts = state => state.cart.cartProducts;
 const getCartDetailed = state => cartDetailedSelector(state);
 
-
-
-
-function productsMap(products) {
+const productsMap = (products) => {
 	let map = {};
     products.forEach((pr, i) => {
         map[pr.id.toString()] = i;
@@ -17,8 +13,7 @@ function productsMap(products) {
 }
 
 
-
-function getById(map = {}, products, id) {
+const getById = (map = {}, products, id) => {
     let index = map[id];
 
     if (index === undefined) {
@@ -26,7 +21,6 @@ function getById(map = {}, products, id) {
     }
     return products[index];
 }
-
 
 
 export const cartTotalPriceSelector = createSelector(

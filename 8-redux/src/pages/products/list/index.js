@@ -11,12 +11,13 @@ import actions from '~s/actions';
 
 
 class Products extends React.Component{
+    
+    inCart(id) {
+        return this.props.cart.some((product) => product.id === id);
+    }
+
+
     render(){
-        // let productModel = this.props.stores.products;
-        // let cart = this.props.stores.cart;
-
-        console.log('PROPS', this.props);
-
         const {products, onAdd, onRemove} = this.props;
 
         let productsCards = products.map((product) => {  
@@ -34,7 +35,7 @@ class Products extends React.Component{
                             <Link className="mb-3 " to={urlBuilder('product', {id: product.id})}>
                                 Get more...
                             </Link>
-                            {<CartButton inCart={/*cart.inCart(product.id)*/ false} 
+                            {<CartButton inCart={this.inCart(product.id)} 
                                         onAdd={() => onAdd(product.id)} 
                                         onRemove={() => onRemove(product.id)}
                                         disabled={/*product.id in cart.processId*/ false}
@@ -65,10 +66,10 @@ class Products extends React.Component{
 
 let mapStateToProps = state => {
     return {
-        products: state.products.products
+        products: state.products.products,
+        cart: state.cart.cartProducts
     }
 }
-
 
 
 let mapDispatchToProps = dispatch => {

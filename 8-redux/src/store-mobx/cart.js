@@ -21,13 +21,13 @@ export default class{
     @computed get inCart(){
         return (id) => this.products.some((product) => product.id === id);
     }
-    /*
+    
     @computed get inProcess(){
         return (id) => {
             //console.log(Object.keys(this.processId));
             return this.processId.hasOwnProperty(id.toString());
         }
-    }*/
+    }
 
     @computed get cartCnt(){
         return this.products.length;
