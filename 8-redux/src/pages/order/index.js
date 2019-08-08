@@ -10,7 +10,7 @@
     import {connect} from 'react-redux';
     import actions from '~s/actions';
 
-    import {cartTotalPriceSelector} from '~s/selectors';
+    import {cartTotalPriceSelector, formValidSelector} from '~s/selectors';
     class Order extends React.Component{
         state = {
             showModal: false
@@ -36,7 +36,7 @@
         render(){
 
             let formFields = [];
-            let {formData, onChange, onChangeCache, totalPrice} = this.props;
+            let {formData, formValid, onChange, totalPrice} = this.props;
 
 
             for(let name in formData){
@@ -61,7 +61,6 @@
 
             return (
                 <div>
-                    <button onClick={() => onChangeCache(formData.name.value, totalPrice)} >3243214</button>
                     <h2>Order</h2>
                     <hr/>
                     <Form>
@@ -73,7 +72,7 @@
                     &nbsp;
                     <Button variant="primary" 
                             onClick={this.show} 
-                            disabled={false}>
+                            disabled={!formValid}>
                         Apply order
                     </Button>
                     <Modal show={this.state.showModal} backdrop="static" onHide={this.hide}>
@@ -100,7 +99,8 @@
     let mapStateToProps = state => {
         return {
             totalPrice: cartTotalPriceSelector(state),
-            formData: state.order.formData
+            formData: state.order.formData,
+            formValid: formValidSelector(state)
         }
     }
 

@@ -3,6 +3,7 @@ import { createSelector } from 'reselect';
 const getPproducts = state => state.products.products;
 const getCartProducts = state => state.cart.cartProducts;
 const getCartDetailed = state => cartDetailedSelector(state);
+const getFormData = state => state.order.formData;
 
 const productsMap = (products) => {
 	let map = {};
@@ -21,6 +22,12 @@ const getById = (map = {}, products, id) => {
     }
     return products[index];
 }
+
+
+export const formValidSelector = createSelector(
+    getFormData,
+    (formData) => Object.values(formData).every(field => field.valid)
+)
 
 
 export const cartTotalPriceSelector = createSelector(
