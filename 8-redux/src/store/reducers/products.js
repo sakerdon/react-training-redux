@@ -10,6 +10,7 @@ const reducer = function(state = initialState, action) {
             return {
                 ...state,
                 products: action.payload,
+                loading: action.loading
             };
         break;
     }

@@ -9,6 +9,7 @@ import {Navbar} from 'react-bootstrap';
 
 import {connect} from 'react-redux';
 import actions from '~s/actions';
+import './app.module.css';
 
 import {cartTotalPriceSelector,
         cartTotalCntSelector,
@@ -25,7 +26,7 @@ class App extends React.Component{
 
     render(){
 
-        const { totalCnt, totalPrice } = this.props; 
+        const { totalCnt, totalPrice, loading } = this.props; 
 
         // let cart = this.props.stores.cart;
 
@@ -36,6 +37,15 @@ class App extends React.Component{
                           key={route.url}
                     />;
         });
+
+        if (loading) {
+            return (<div className="align-items-center d-flex flex-column h-100 justify-content-center">
+                <div className="spinner spinner-border"></div>
+                <div>Loading...</div>
+            </div>)
+
+
+        }
 
         return (
         <Router>
@@ -81,9 +91,7 @@ class App extends React.Component{
                         </div>
                     </div>
                     <div className="col col-9">
-                        <Switch>
-                            {routesComponents}
-                        </Switch>
+                        <Switch>{routesComponents}</Switch>
                     </div>
                 </div>
             </div>
@@ -100,6 +108,7 @@ let mapStateToProps = state => {
         totalPrice: state.products.totalPrice,
         totalPrice: cartTotalPriceSelector(state),
         totalCnt: cartTotalCntSelector(state),
+        loading: state.products.loading,
 
     }
 }

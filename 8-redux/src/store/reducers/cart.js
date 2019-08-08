@@ -1,5 +1,5 @@
 let initialState = {
-	cartProducts: getProducts(),
+	cartProducts: []
 }
 
 
@@ -39,6 +39,12 @@ const reducer = function(state = initialState, action) {
         case 'CART_CHANGE_CNT':
             return cartChangeCnt(state, action.i, action.cnt);
             break;
+
+        case 'CART_DELETE':
+            return {...state, cartProducts: []};
+            break;
+
+        default: return state    
 	}
 
 	return state;
@@ -49,7 +55,7 @@ export default reducer;
 
 
 // server api
-function getProducts(){
+/*function getProducts(){
     return [
         {
             id: 100,
@@ -61,3 +67,4 @@ function getProducts(){
         }
     ];
 }
+*/

@@ -5,11 +5,17 @@ import {all as fetchAllProducts}  from '~a/products'
 export const fetchProducts = (dispatch) => {
 
 	fetchAllProducts().then(res => {
-		dispatch({type: 'FETCH_PRODUCTS', payload: res});
+		dispatch({type: 'FETCH_PRODUCTS', 
+            payload: res, 
+            loading: false
+        });
 	})
 	.catch( err => {
 		dispatch({type: 'FETCH_PRODUCTS', 
-			payload: getProducts()})
+			payload: getProducts(),
+            loading: false
+
+        })
 
 	})
 }

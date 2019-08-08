@@ -26,8 +26,9 @@
         }
 
         confirm = () => {
-            const { formData, onChangeCache, totalPrice } = this.props;
-            onChangeCache(formData.name.value, totalPrice)
+            const { formData, onChangeCache, onCartDelete, totalPrice } = this.props;
+            onChangeCache(formData.name.value, totalPrice);
+            onCartDelete();
             this.hide();
             this.props.history.push(routesMap.result);
         }
@@ -51,7 +52,7 @@
                             onChange={(e) => onChange(name, e.target.value)}
                         />
                         {field.valid === null || field.valid ? '' : 
-                            <Form.Text className="text-muted">
+                            <Form.Text className="text-warning">
                                 {field.errorText}
                             </Form.Text>
                         }
@@ -108,6 +109,7 @@
         return {
             onChange: (name, value) => dispatch(actions.order.change(name, value)),
             onChangeCache: (name, lastOrderCache) => dispatch(actions.order.changeOrderCache(name, lastOrderCache)),
+            onCartDelete: () => dispatch(actions.cart.deleteCart()),
         }
     }
 

@@ -18,3 +18,8 @@ export const changeCnt = (i, cnt) => {
 		cnt
 	}
 }
+export const deleteCart = () => {
+	return {
+		type: 'CART_DELETE'
+	}
+}
