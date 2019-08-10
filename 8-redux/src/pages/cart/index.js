@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import AppMinMax from '~c/inputs/minmax';
 import { routesMap } from '~/routes';
 import { Link } from 'react-router-dom';
-import withStore from '~/hocs/withStore';
 import LinkButton from '~c/links/button';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'

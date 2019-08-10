@@ -10,8 +10,7 @@ import {Provider} from "react-redux";
 import {createStore, applyMiddleware, compose} from 'redux';
 import thunkMiddleware from 'redux-thunk';
 
-// let store = createStore(reducers, applyMiddleware(thunkMiddleware));
-
+// const store = createStore(reducers, applyMiddleware(thunkMiddleware));
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = createStore(reducers, composeEnhancers(
@@ -19,12 +18,9 @@ const store = createStore(reducers, composeEnhancers(
     applyMiddleware(thunkMiddleware)
   ));
 
-/*stores.products.load().then(() => {*/
     ReactDom.render(<Provider store={store}>
         <App/>
     </Provider>, document.querySelector('#app'));
-/*});*/
 
-// stores.cart.load();
 
 

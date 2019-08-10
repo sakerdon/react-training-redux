@@ -1,8 +1,6 @@
 import React from 'react';
-// import withStore from '~/hocs/withStore';
 import {BrowserRouter as Router, Route, Switch, NavLink} from 'react-router-dom';
 import routes, { routesMap } from '~/routes';
-import Notifications from '~p/notifications';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faShoppingCart, faBook } from '@fortawesome/free-solid-svg-icons'
 import {Navbar} from 'react-bootstrap';
@@ -22,13 +20,12 @@ class App extends React.Component{
 
     componentDidMount() {
       this.props.onLoad();      
+      this.props.onCartLoad();      
     }
 
     render(){
 
         const { totalCnt, totalPrice, loading } = this.props; 
-
-        // let cart = this.props.stores.cart;
 
         let routesComponents = routes.map((route) => {
             return <Route path={route.url}
@@ -49,8 +46,7 @@ class App extends React.Component{
 
         return (
         <Router>
-            <Notifications/>
-
+            
             <header className="mb-5">
                 <Navbar bg="light" expand="lg">
                     <div className="container">
@@ -103,9 +99,6 @@ class App extends React.Component{
 let mapStateToProps = state => {
     return {
         products: state.products.products,
-        cartDetailed: state.products.cartDetailed,
-        totalCnt: state.products.totalCnt,
-        totalPrice: state.products.totalPrice,
         totalPrice: cartTotalPriceSelector(state),
         totalCnt: cartTotalCntSelector(state),
         loading: state.products.loading,
@@ -116,6 +109,7 @@ let mapStateToProps = state => {
 let mapDispatchToProps = dispatch => {
     return {
         onLoad: () => dispatch(actions.products.fetchProducts),
+        onCartLoad: () => dispatch(actions.cart.fetchCart),
     }
 }
 

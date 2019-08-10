@@ -28,7 +28,14 @@ function cartChangeCnt(state, id, cnt) {
 const reducer = function(state = initialState, action) {
 	switch(action.type) {
 
-		case 'CART_REMOVE':
+		case 'CART_FETCH':
+            return {
+                ...state,
+                cartProducts: action.payload
+            };
+            break;
+
+        case 'CART_REMOVE':
             return cartRemove(state, action.i);
             break;
 

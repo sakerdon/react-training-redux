@@ -52,12 +52,6 @@ class Products extends React.Component{
                 <div className="row">
                     {productsCards}
                 </div>
-                <hr/>
-                <button className="btn btn-danger" onClick={() => 
-                    this.props.stores.notifications.add(Math.random() + ' error!')
-                }>
-                    Test Error button
-                </button>
             </div>
         );
     }

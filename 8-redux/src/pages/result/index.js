@@ -9,7 +9,6 @@ import {cartTotalPriceSelector} from '~s/selectors';
 
 class Result extends React.Component{
     render(){
-        // let data = this.props.stores.order.lastOrderCache;
         const {totalPrice, name} = this.props.lastOrderCache
 
         return (
