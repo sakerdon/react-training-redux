@@ -7,17 +7,20 @@ import reducers from '~s/reducers';
 import actions from '~s/actions';
 import {Provider} from "react-redux";
 
-import {createStore, applyMiddleware} from 'redux';
+import {createStore, applyMiddleware, compose} from 'redux';
 import thunkMiddleware from 'redux-thunk';
 
-let store = createStore(reducers, applyMiddleware(thunkMiddleware));
+// const store = createStore(reducers, applyMiddleware(thunkMiddleware));
 
-/*stores.products.load().then(() => {*/
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+const store = createStore(reducers, composeEnhancers(
+// const store = createStore(reducers, compose(
+    applyMiddleware(thunkMiddleware)
+  ));
+
     ReactDom.render(<Provider store={store}>
         <App/>
     </Provider>, document.querySelector('#app'));
-/*});*/
 
-// stores.cart.load();
 
 

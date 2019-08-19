@@ -3,13 +3,23 @@ import E404 from '~c/errors/404';
 import { routesMap } from '~/routes';
 import ProductItem from '~c/products/item';
 
+import {connect} from 'react-redux';
+import actions from '~s/actions';
+
 class Product extends React.Component{
+
+    inCart(id) {
+        return this.props.cart.some((product) => product.id === id);
+    }
+
     render(){
-        let id = this.props.match.params.id;
-        let product = this.props.stores.products.getById(id);
-        let cart = this.props.stores.cart;
+        const {products, onAdd, onRemove} = this.props;
+        const id = this.props.match.params.id;
+
+        const product = products.find( product => product.id.toString() === id.toString());
+
         
-        if(product === null){
+        if(!product){
             return <E404/>
         }
         else{
@@ -18,12 +28,29 @@ class Product extends React.Component{
                         image={product.image} 
                         price={product.price} 
                         backUrl={routesMap.productList} 
-                        inCart={cart.inCart(product.id)}
-                        onAdd={() => cart.add(product.id)}
-                        onRemove={() => cart.remove(product.id)}
+                        inCart={this.inCart(product.id)}
+                        onAdd={() => onAdd(product.id)}
+                        onRemove={() => onRemove(product.id)}
                     />
         }
     }
 }
 
-export default Product;
+
+let mapStateToProps = state => {
+    return {
+        products: state.products.products,
+        cart: state.cart.cartProducts
+    }
+}
+
+
+let mapDispatchToProps = dispatch => {
+    return {
+        onAdd: (i) => dispatch(actions.cart.add(i)),
+        onRemove: (i, cnt) => dispatch(actions.cart.remove(i)),
+    }
+}
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(Product);

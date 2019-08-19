@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import AppMinMax from '~c/inputs/minmax';
 import { routesMap } from '~/routes';
 import { Link } from 'react-router-dom';
-import withStore from '~/hocs/withStore';
 import LinkButton from '~c/links/button';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -12,16 +11,27 @@ import { faTrash} from '@fortawesome/free-solid-svg-icons'
 import {connect} from 'react-redux';
 import actions from '~s/actions';
 
+import {cartDetailedSelector, 
+        cartTotalPriceSelector,
+        cartTotalCntSelector,
+    } from '~s/selectors';
 
 class Cart extends React.Component{
+   
     render(){
-        
-        const { cart, onChange, onRemove} = this.props;
+        const { 
+            products, 
+            cart, 
+            cartDetailed, 
+            onChange, 
+            onRemove, 
+            totalPrice
+        } = this.props;
 
-        let total = cart.reduce((t, pr) => t + pr.price * pr.current, 0)
+        let productsRows = cartDetailed.map((product, i) => {
+            
+            if(!product.id) return null; 
 
-
-        let productsRows = cart.map((product, i) => {
             return (
                 <tr key={product.id}>
                     <td>{product.title}</td>
@@ -30,14 +40,14 @@ class Cart extends React.Component{
                         <AppMinMax 
                             min={1} 
                             max={product.rest} 
-                            cnt={product.current} 
-                            onChange={(cnt) => onChange(i, cnt)}
+                            cnt={product.cnt} 
+                            onChange={(cnt) => onChange(product.id, cnt)}
                             disabled={/*product.id in cartModel.processId*/ false}
                         />
                     </td>
-                    <td>{product.price * product.current}</td>
+                    <td>{product.price * product.cnt}</td>
                     <td>
-                        <button onClick={() => onRemove(i)}
+                        <button onClick={() => onRemove(product.id,)}
                                 disabled={/*product.id in cartModel.processId*/ false}
                                 className="btn btn-outline-danger btn-sm"
                         >
@@ -47,6 +57,7 @@ class Cart extends React.Component{
                 </tr>
             );
         });
+
 
         return (
             <div>
@@ -65,7 +76,7 @@ class Cart extends React.Component{
                         {productsRows}
                     </tbody> 
                 </table>
-                <h3>Total: ${total}</h3>
+                <h3>Total: ${totalPrice}</h3>
                 <hr/>
                 
                 <LinkButton to={routesMap.order} className="btn btn-primary">
@@ -78,14 +89,18 @@ class Cart extends React.Component{
 
 let mapStateToProps = state => {
     return {
-        cart: state.cart.cartProducts
+        cart: state.cart.cartProducts,
+        cartDetailed: cartDetailedSelector(state),
+        products: state.products.products,
+        totalPrice: cartTotalPriceSelector(state),
+        totalCnt: cartTotalCntSelector(state),
     }
 }
 
 let mapDispatchToProps = dispatch => {
     return {
         onRemove: (i) => dispatch(actions.cart.remove(i)),
-        onChange: (i, cnt) => dispatch(actions.cart.changeCnt(i, cnt)),
+        onChange: (i, cnt) => dispatch(actions.cart.changeCnt(i, cnt))
     }
 }
 

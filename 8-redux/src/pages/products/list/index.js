@@ -11,13 +11,14 @@ import actions from '~s/actions';
 
 
 class Products extends React.Component{
+    
+    inCart(id) {
+        return this.props.cart.some((product) => product.id === id);
+    }
+
+
     render(){
-        // let productModel = this.props.stores.products;
-        // let cart = this.props.stores.cart;
-
-        console.log('test', this.props);
-
-        const {products} = this.props;
+        const {products, onAdd, onRemove} = this.props;
 
         let productsCards = products.map((product) => {  
            
@@ -34,11 +35,11 @@ class Products extends React.Component{
                             <Link className="mb-3 " to={urlBuilder('product', {id: product.id})}>
                                 Get more...
                             </Link>
-                            {/*<CartButton inCart={cart.inCart(product.id)} 
-                                        onAdd={() => cart.add(product.id)} 
-                                        onRemove={() => cart.remove(product.id)}
-                                        disabled={product.id in cart.processId}
-                                        />*/}
+                            {<CartButton inCart={this.inCart(product.id)} 
+                                        onAdd={() => onAdd(product.id)} 
+                                        onRemove={() => onRemove(product.id)}
+                                        disabled={/*product.id in cart.processId*/ false}
+                                        />}
                         </div>
                     </Card.Body>
                 </Card>
@@ -51,12 +52,6 @@ class Products extends React.Component{
                 <div className="row">
                     {productsCards}
                 </div>
-                <hr/>
-                <button className="btn btn-danger" onClick={() => 
-                    this.props.stores.notifications.add(Math.random() + ' error!')
-                }>
-                    Test Error button
-                </button>
             </div>
         );
     }
@@ -65,9 +60,18 @@ class Products extends React.Component{
 
 let mapStateToProps = state => {
     return {
-        products: state.products.products
+        products: state.products.products,
+        cart: state.cart.cartProducts
     }
 }
 
 
-export default connect(mapStateToProps)(Products);
+let mapDispatchToProps = dispatch => {
+    return {
+        onAdd: (i) => dispatch(actions.cart.add(i)),
+        onRemove: (i, cnt) => dispatch(actions.cart.remove(i)),
+    }
+}
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(Products);

@@ -1,14 +1,18 @@
 import React from 'react';
-// import withStore from '~/hocs/withStore';
 import {BrowserRouter as Router, Route, Switch, NavLink} from 'react-router-dom';
 import routes, { routesMap } from '~/routes';
-import Notifications from '~p/notifications';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faShoppingCart, faBook } from '@fortawesome/free-solid-svg-icons'
 import {Navbar} from 'react-bootstrap';
 
 import {connect} from 'react-redux';
 import actions from '~s/actions';
+import './app.module.css';
+
+import {cartTotalPriceSelector,
+        cartTotalCntSelector,
+    } from '~s/selectors';
+
 
 
 
@@ -16,10 +20,12 @@ class App extends React.Component{
 
     componentDidMount() {
       this.props.onLoad();      
+      this.props.onCartLoad();      
     }
 
     render(){
-        // let cart = this.props.stores.cart;
+
+        const { totalCnt, totalPrice, loading } = this.props; 
 
         let routesComponents = routes.map((route) => {
             return <Route path={route.url}
@@ -29,10 +35,18 @@ class App extends React.Component{
                     />;
         });
 
+        if (loading) {
+            return (<div className="align-items-center d-flex flex-column h-100 justify-content-center">
+                <div className="spinner spinner-border"></div>
+                <div>Loading...</div>
+            </div>)
+
+
+        }
+
         return (
         <Router>
-            <Notifications/>
-
+            
             <header className="mb-5">
                 <Navbar bg="light" expand="lg">
                     <div className="container">
@@ -43,9 +57,10 @@ class App extends React.Component{
                         <NavLink to="/cart" className="nav-link ml-auto text-body">
                           <div className="text-right">
                               <FontAwesomeIcon icon={faShoppingCart} size="lg"/>
-                              <sup className="badge badge-danger d-inline-flex"><small>{1234}</small></sup>
+                              <sup className="badge badge-danger d-inline-flex">
+                              <small>{totalCnt}</small></sup>
                           </div>
-                              <div className="text-right">${4321}</div>
+                              <div className="text-right">${totalPrice}</div>
                         </NavLink>
 
                     </div>
@@ -72,9 +87,7 @@ class App extends React.Component{
                         </div>
                     </div>
                     <div className="col col-9">
-                        <Switch>
-                            {routesComponents}
-                        </Switch>
+                        <Switch>{routesComponents}</Switch>
                     </div>
                 </div>
             </div>
@@ -85,13 +98,18 @@ class App extends React.Component{
 
 let mapStateToProps = state => {
     return {
-        products: state.products.products
+        products: state.products.products,
+        totalPrice: cartTotalPriceSelector(state),
+        totalCnt: cartTotalCntSelector(state),
+        loading: state.products.loading,
+
     }
 }
 
 let mapDispatchToProps = dispatch => {
     return {
         onLoad: () => dispatch(actions.products.fetchProducts),
+        onCartLoad: () => dispatch(actions.cart.fetchCart),
     }
 }
 

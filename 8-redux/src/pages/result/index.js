@@ -2,21 +2,35 @@ import React from 'react';
 
 import { urlBuilder } from '~/routes';
 import { Link } from 'react-router-dom';
-import withStore from '~/hocs/withStore';
+
+import {connect} from 'react-redux';
+
+import {cartTotalPriceSelector} from '~s/selectors';
 
 class Result extends React.Component{
     render(){
-        let data = this.props.stores.order.lastOrderCache;
+        const {totalPrice, name} = this.props.lastOrderCache
 
         return (
             <div>
                 <h2>Congratulations!</h2>
-                <p>Hi, {data.name}!</p>
-                <p><strong>Total: ${data.total}</strong></p>
+                <p>Hi, {name}!</p>
+                <p><strong>Total: ${totalPrice}</strong></p>
             </div>
 
         )
     }
 }
 
-export default withStore(Result);
+
+let mapStateToProps = state => {
+    return {
+        formData: state.order.formData,
+        lastOrderCache: state.order.lastOrderCache
+    }
+}
+
+export default connect(mapStateToProps)(Result);
+
+
+
